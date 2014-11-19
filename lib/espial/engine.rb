@@ -1,9 +1,9 @@
 
 module Espial
-	class Engine < Rails::Engine
+  class Engine < Rails::Engine
 
-		def self.draw(&block)
-			spec = Espial::ApiSpec.new
+    def self.draw(&block)
+      spec = Espial::ApiSpec.new
       spec.instance_eval(&block)
 
       if spec.id.nil?
@@ -12,13 +12,13 @@ module Espial
         build_routes(spec)
         Espial::Config.instance.specs[spec.id] = spec
       end
-		end
+    end
 
-		def build_routes(spec)
-			self.routes.draw do
+    def build_routes(spec)
+      self.routes.draw do
         spec.paths.each do |path|
           path.methods.each do |method|
-            route = {path.name => method.c, via: method.operation}
+            route = {path.id => method.controller_id, via: method.id}
             if !method.vars.empty?
               method.vars.map {|v| route.merge!(v)}
             end
@@ -26,7 +26,7 @@ module Espial
           end
         end
       end
-		end
+    end
 
-	end
+  end
 end

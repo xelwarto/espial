@@ -1,0 +1,2 @@
+
+require 'espial/specs/paths'
