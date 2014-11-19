@@ -1,8 +1,6 @@
 
 module Espial
 	class Engine < Rails::Engine
-		
-		protected
 
 		def self.draw(&block)
 			spec = Espial::ApiSpec.new
@@ -29,5 +27,6 @@ module Espial
         end
       end
 		end
+
 	end
 end
