@@ -1,6 +1,9 @@
 
 module Espial
 	class Engine < Rails::Engine
+		
+		protected
+
 		def self.draw(&block)
 			spec = Espial::ApiSpec.new
       spec.instance_eval(&block)
@@ -12,8 +15,6 @@ module Espial
         Espial::Config.instance.specs[spec.id] = spec
       end
 		end
-
-		private
 
 		def build_routes(spec)
 			self.routes.draw do
