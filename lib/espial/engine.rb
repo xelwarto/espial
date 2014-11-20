@@ -4,6 +4,13 @@ module Espial
 
     def self.draw(&block)
       spec = Espial::ApiSpec.new
+
+      spec.path '' do
+        get do
+          controller 'espialspec#show'
+        end
+      end
+
       spec.instance_eval(&block)
 
       if spec.id.nil?
@@ -17,10 +24,10 @@ module Espial
     def build_routes(spec)
       self.routes.draw do
         spec.paths.each do |path|
-          path.methods.each do |method|
-            route = {path.id => method.controller_id, via: method.id}
-            if !method.vars.empty?
-              method.vars.map {|v| route.merge!(v)}
+          path.operations.each do |operation|
+            route = {path.id => operation.controller_id, via: operation.id}
+            if !operation.vars.empty?
+              operation.vars.map {|v| route.merge!(v)}
             end
             match route
           end
