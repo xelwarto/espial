@@ -77,9 +77,7 @@ module Espial
 			def a_obj
 				@a_obj_var ||= []
 			end
-
-
-
+			
 			def to_json
 				data = {}
 
