@@ -60,6 +60,10 @@ module Espial
 			def self.a_obj_accessor(*args)
 				args.each do |arg|
 					class_eval %Q{
+						def #{pluralize(arg.to_s)}(name=nil,&block)
+							#{arg.to_s}(name,&block)
+						end
+
 						def #{arg.to_s}(name=nil,&block)
 							@#{pluralize(arg.to_s)} = @#{pluralize(arg.to_s)} || []
 							if block_given?
