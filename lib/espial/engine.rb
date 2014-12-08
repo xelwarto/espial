@@ -4,20 +4,20 @@ module Espial
 
     def self.draw(&block)
       spec = Espial::Spec::Api.new
-
-      spec.path '' do
-        get do
-          controller 'espialspec#show'
-        end
-      end
-
       spec.instance_eval(&block)
 
       if spec.id.nil?
         raise Espial::Spec::ApiError.new('API specification id is invalid')
       else
-        build_routes(spec)
+        spec.path '/' do
+          get do
+            tags ['api-spec']
+            controller 'espialspec#show'
+          end
+        end
+
         Espial::Config.instance.specs[spec.id] = spec
+        build_routes(spec)
       end
     end
 
