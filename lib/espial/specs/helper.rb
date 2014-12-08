@@ -60,10 +60,12 @@ module Espial
 			def self.a_obj_accessor(*args)
 				args.each do |arg|
 					class_eval %Q{
-						def #{arg.to_s}(name,&block)
+						def #{arg.to_s}(name=nil,&block)
 							@#{pluralize(arg.to_s)} = @#{pluralize(arg.to_s)} || []
 							if block_given?
-								a_obj.push '#{arg.to_s}'.to_sym
+								unless a_obj.include? '#{arg.to_s}'.to_sym
+									a_obj.push '#{arg.to_s}'.to_sym
+								end
 								obj = Espial::Spec::#{arg.to_s.capitalize}.new(name)
 								obj.instance_eval(&block)
 								@#{pluralize(arg.to_s)}.push(obj)
@@ -77,7 +79,7 @@ module Espial
 			def a_obj
 				@a_obj_var ||= []
 			end
-			
+
 			def to_json
 				data = {}
 
@@ -96,6 +98,18 @@ module Espial
 				if !@s_obj_var.nil?
 					@s_obj_var.each do |obj|
 						data[obj] = self.send(obj.to_s).to_json
+					end
+				end
+
+				if !@a_obj_var.nil?
+					@a_obj_var.each do |obj|
+						obj_name = Espial::Spec::Helper.pluralize(obj.to_s)
+						data[obj_name] = {}
+
+						objs = self.send(obj.to_s)
+						objs.each do |o|
+							data[obj_name][o.id] = o.to_json
+						end
 					end
 				end
 
