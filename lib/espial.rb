@@ -1,8 +1,8 @@
 
 require "espial/version"
 require "espial/errors"
-require "espial/apispec"
 require "espial/engine"
+require "espial/specs"
 
 module Espial
 

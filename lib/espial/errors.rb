@@ -1,5 +1,7 @@
 
 module Espial
-  class ApiSpecError < StandardError; end
-  class SpecError < StandardError; end
+  module Spec
+    class ApiError < StandardError; end
+    class Error < StandardError; end
+  end
 end

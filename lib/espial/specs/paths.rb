@@ -12,7 +12,7 @@ module Espial
 
       def operations
         if s_obj.nil?
-          raise Espial::SpecError.new('Path operations are invalid')
+          raise Espial::Spec::Error.new('Path operations are invalid')
         else
           s_obj.map {|obj| self.send(obj)}
         end
