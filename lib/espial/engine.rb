@@ -13,6 +13,8 @@ module Espial
           get do
             tags ['api-spec']
             controller 'espialspec#show'
+            description 'Retreive the API specification'
+            produces [ 'application/json' ]
           end
         end
 

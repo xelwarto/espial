@@ -12,8 +12,36 @@ module Espial
 				args.each do |arg|
 					class_eval %Q{
 						def #{arg.to_s}(value=nil)
-							s_attr.push '#{arg.to_s}'.to_sym unless value.nil?
-							value.nil? ? @#{arg.to_s} : @#{arg.to_s} = value
+							if value.nil?
+								@#{arg.to_s}
+							else
+								if value.is_a?(String)
+									unless s_attr.include? '#{arg.to_s}'.to_sym
+										s_attr.push '#{arg.to_s}'.to_sym
+									end
+									@#{arg.to_s} = value
+								end
+							end
+						end
+					}
+				end
+			end
+
+			# Boolean attribute spec
+			def self.b_attr_accessor(*args)
+				args.each do |arg|
+					class_eval %Q{
+						def #{arg.to_s}(value=nil)
+							if value.nil?
+								@#{arg.to_s}
+							else
+								if value.is_a?(TrueClass) || value.is_a?(FalseClass)
+									unless s_attr.include? '#{arg.to_s}'.to_sym
+										s_attr.push '#{arg.to_s}'.to_sym
+									end
+									@#{arg.to_s} = value
+								end
+							end
 						end
 					}
 				end
@@ -89,6 +117,29 @@ module Espial
 			end
 
 			# Array object spec
+			def self.a_obj_accessor(*args)
+				args.each do |arg|
+					class_eval %Q{
+						def #{pluralize(arg.to_s)}(&block)
+							#{arg.to_s}(&block)
+						end
+
+						def #{arg.to_s}(&block)
+							@#{pluralize(arg.to_s)} = @#{pluralize(arg.to_s)} || []
+							if block_given?
+								unless a_obj.include? '#{arg.to_s}'.to_sym
+									a_obj.push '#{arg.to_s}'.to_sym
+								end
+								obj = Espial::Spec::#{arg.to_s.capitalize}.new
+								obj.instance_eval(&block)
+								@#{pluralize(arg.to_s)}.push(obj)
+							end
+							@#{pluralize(arg.to_s)}
+						end
+					}
+				end
+			end
+
 			def a_obj
 				@a_obj_var ||= []
 			end
@@ -122,6 +173,18 @@ module Espial
 						objs = self.send(obj.to_s)
 						objs.each do |o|
 							data[obj_name][o.id] = o.to_json
+						end
+					end
+				end
+
+				if !@a_obj_var.nil?
+					@a_obj_var.each do |obj|
+						obj_name = Espial::Spec::Helper.pluralize(obj.to_s)
+						data[obj_name] = []
+
+						objs = self.send(obj.to_s)
+						objs.each do |o|
+							data[obj_name].push(o.to_json)
 						end
 					end
 				end
