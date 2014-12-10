@@ -4,7 +4,8 @@ module Espial
 
     class Path < Espial::Spec::Helper
       attr_reader :id
-      s_obj_accessor :get, :post
+      s_obj_accessor :get, :put, :post, :delete, :options, :head, :patch
+      a_obj_accessor :parameter
 
       def initialize(id)
         @id = id
@@ -21,8 +22,11 @@ module Espial
 
     class Operation < Espial::Spec::Helper
       attr_accessor :id, :controller_id, :vars
-      s_attr_accessor :summary, :description
-      a_attr_accessor :tags
+      s_attr_accessor :summary, :description, :operationId
+      a_attr_accessor :tags, :consumes, :produces, :schemes
+      a_obj_accessor :parameter
+
+      # externalDocs, responses, deprecated, security
 
       def initialize
         @id             = nil
@@ -46,10 +50,45 @@ module Espial
       end
     end
 
+    class Put < Operation
+      def initialize
+        super
+        @id = :put
+      end
+    end
+
     class Post < Operation
       def initialize
         super
         @id = :post
+      end
+    end
+
+    class Delete < Operation
+      def initialize
+        super
+        @id = :delete
+      end
+    end
+
+    class Options < Operation
+      def initialize
+        super
+        @id = :options
+      end
+    end
+
+    class Head < Operation
+      def initialize
+        super
+        @id = :head
+      end
+    end
+
+    class Patch < Operation
+      def initialize
+        super
+        @id = :patch
       end
     end
 
