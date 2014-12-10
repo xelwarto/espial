@@ -5,8 +5,8 @@ module Espial
 
       s_attr_accessor :swagger, :basePath, :host
       a_attr_accessor :schemes, :consumes, :produces
-      s_obj_accessor :info
-      a_obj_accessor :path
+      h_obj_accessor :info
+      hid_obj_accessor :path
 
       def initialize
         swagger '2.0'

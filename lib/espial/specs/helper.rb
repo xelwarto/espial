@@ -7,6 +7,7 @@ module Espial
 				name << 's'
 			end
 
+			# String attribute spec
 			def self.s_attr_accessor(*args)
 				args.each do |arg|
 					class_eval %Q{
@@ -22,6 +23,7 @@ module Espial
 				@s_attr_var ||= []
 			end
 
+			# Array attribute spec
 			def self.a_attr_accessor(*args)
 				args.each do |arg|
 					class_eval %Q{
@@ -38,13 +40,14 @@ module Espial
 				@a_attr_var ||= []
 			end
 
-			def self.s_obj_accessor(*args)
+			# Hash object spec
+			def self.h_obj_accessor(*args)
 				args.each do |arg|
 					class_eval %Q{
 						def #{arg.to_s}(&block)
 							@#{arg.to_s} = @#{arg.to_s} || Espial::Spec::#{arg.to_s.capitalize}.new
 							if block_given?
-								s_obj.push '#{arg.to_s}'.to_sym
+								h_obj.push '#{arg.to_s}'.to_sym
 								@#{arg.to_s}.instance_eval(&block)
 							end
 							@#{arg.to_s}
@@ -53,11 +56,12 @@ module Espial
 				end
 			end
 
-			def s_obj
-				@s_obj_var ||= []
+			def h_obj
+				@h_obj_var ||= []
 			end
 
-			def self.a_obj_accessor(*args)
+			# Hash(ID) object spec
+			def self.hid_obj_accessor(*args)
 				args.each do |arg|
 					class_eval %Q{
 						def #{pluralize(arg.to_s)}(name=nil,&block)
@@ -67,8 +71,8 @@ module Espial
 						def #{arg.to_s}(name=nil,&block)
 							@#{pluralize(arg.to_s)} = @#{pluralize(arg.to_s)} || []
 							if block_given?
-								unless a_obj.include? '#{arg.to_s}'.to_sym
-									a_obj.push '#{arg.to_s}'.to_sym
+								unless hid_obj.include? '#{arg.to_s}'.to_sym
+									hid_obj.push '#{arg.to_s}'.to_sym
 								end
 								obj = Espial::Spec::#{arg.to_s.capitalize}.new(name)
 								obj.instance_eval(&block)
@@ -80,6 +84,11 @@ module Espial
 				end
 			end
 
+			def hid_obj
+				@hid_obj_var ||= []
+			end
+
+			# Array object spec
 			def a_obj
 				@a_obj_var ||= []
 			end
@@ -99,14 +108,14 @@ module Espial
 					end
 				end
 
-				if !@s_obj_var.nil?
-					@s_obj_var.each do |obj|
+				if !@h_obj_var.nil?
+					@h_obj_var.each do |obj|
 						data[obj] = self.send(obj.to_s).to_json
 					end
 				end
 
-				if !@a_obj_var.nil?
-					@a_obj_var.each do |obj|
+				if !@hid_obj_var.nil?
+					@hid_obj_var.each do |obj|
 						obj_name = Espial::Spec::Helper.pluralize(obj.to_s)
 						data[obj_name] = {}
 

@@ -4,18 +4,19 @@ module Espial
 
     class Path < Espial::Spec::Helper
       attr_reader :id
-      s_obj_accessor :get, :put, :post, :delete, :options, :head, :patch
-      a_obj_accessor :parameter
+      h_obj_accessor :get, :put, :post, :delete, :options, :head, :patch
+
+      #a_obj_accessor :parameter
 
       def initialize(id)
         @id = id
       end
 
       def operations
-        if s_obj.nil?
+        if h_obj.nil?
           raise Espial::Spec::Error.new('Path operations are invalid')
         else
-          s_obj.map {|obj| self.send(obj)}
+          h_obj.map {|obj| self.send(obj)}
         end
       end
     end
@@ -24,7 +25,8 @@ module Espial
       attr_accessor :id, :controller_id, :vars
       s_attr_accessor :summary, :description, :operationId
       a_attr_accessor :tags, :consumes, :produces, :schemes
-      a_obj_accessor :parameter
+
+      #a_obj_accessor :parameter
 
       # externalDocs, responses, deprecated, security
 

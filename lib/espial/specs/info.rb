@@ -3,7 +3,7 @@ module Espial
 	module Spec
 		class Info < Espial::Spec::Helper
 			s_attr_accessor :title, :description, :termsOfService, :version
-			s_obj_accessor :contact, :license
+			h_obj_accessor :contact, :license
 		end
 
 		class Contact < Espial::Spec::Helper
