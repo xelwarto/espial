@@ -26,8 +26,9 @@ module Espial
     def build_routes(spec)
       self.routes.draw do
         spec.paths.each do |path|
+          route_path = path.id.gsub(/\{([^\/]*)?\}/,':\1')
           path.operations.each do |operation|
-            route = {path.id => operation.controller_id, via: operation.id}
+            route = {route_path => operation.controller_id, via: operation.id}
             if !operation.vars.empty?
               operation.vars.map {|v| route.merge!(v)}
             end

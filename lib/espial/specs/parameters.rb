@@ -3,7 +3,7 @@ module Espial
   module Spec
 
     class Parameter < Espial::Spec::Helper
-      s_attr_accessor :name, :in, :description, :type, :format, :collectionFormat
+      s_attr_accessor :name, :in, :description, :type, :format, :collectionFormat,
                       :pattern
       b_attr_accessor :required, :uniqueItems
 
