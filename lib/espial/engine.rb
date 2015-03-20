@@ -9,7 +9,7 @@ module Espial
       if spec.id.nil?
         raise Espial::Spec::ApiError.new('API specification id is invalid')
       else
-        spec.path '/' do
+        spec.path spec.api_path do
           get do
             tags ['api-spec']
             controller 'espialspec#show'

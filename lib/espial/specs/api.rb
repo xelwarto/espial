@@ -10,6 +10,11 @@ module Espial
 
       def initialize
         swagger '2.0'
+        @api_path = '/api'
+      end
+
+      def api_path(path=nil)
+        @api_path = path || @api_path
       end
 
       def id
