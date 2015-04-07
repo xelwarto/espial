@@ -11,8 +11,8 @@ module Espial
       else
         spec.path spec.api_path do
           get do
+            route controller: 'espialspec#show'
             tags ['api-spec']
-            controller 'espialspec#show'
             description 'Retreive the API specification'
             produces [ 'application/json' ]
           end
@@ -28,10 +28,10 @@ module Espial
         spec.paths.each do |path|
           route_path = path.id.gsub(/\{([^\/]*)?\}/,':\1')
           path.operations.each do |operation|
-            route = {route_path => operation.controller_id, via: operation.id}
-            if !operation.vars.empty?
-              operation.vars.map {|v| route.merge!(v)}
-            end
+            r_cfg = operation.route_cfg
+            controller = r_cfg.delete(:controller)
+            route = {route_path => controller, via: operation.id}
+            route.merge!(r_cfg)
             match route
           end
         end
