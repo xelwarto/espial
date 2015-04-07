@@ -9,6 +9,8 @@ class EspialspecController < ApplicationController
 			api = JSON.pretty_unparse(api)
 		end
 
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Vary'] = %w(Accept-Encoding Origin)
 		render json: api
 	end
 end
