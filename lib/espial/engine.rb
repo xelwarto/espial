@@ -11,12 +11,13 @@ module Espial
       else
         spec.path spec.api_path do
           get do
-            route controller: 'espialspec#show'
-            tags ['api-spec']
+            route controller: 'espialspec#show', as: 'espial_api'
+            summary 'API Specification'
             description 'Retreive the API specification'
             produces [ 'application/json' ]
           end
         end
+        spec.path.rotate!(-1) rescue nil
 
         Espial::Config.instance.specs[spec.id] = spec
         build_routes(spec)
