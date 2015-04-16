@@ -8,6 +8,7 @@ module Espial
       b_attr_accessor :deprecated
       a_attr_accessor :tags, :consumes, :produces, :schemes
       a_obj_accessor :parameter
+      hid_obj_accessor :response
 
       # externalDocs, responses, security
 

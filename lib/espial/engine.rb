@@ -9,12 +9,18 @@ module Espial
       if spec.id.nil?
         raise Espial::Spec::ApiError.new('API specification id is invalid')
       else
+        spec.tag do
+          name        'api-spec'
+          description 'Swagger API Specification'
+        end
+
         spec.path spec.api_path do
           get do
-            route controller: 'espialspec#show', as: 'espial_api'
-            summary 'API Specification'
+            route       controller: 'espialspec#show', as: 'espial_api'
+            tags        ['api-spec']
+            summary     'API Specification'
             description 'Retreive the API specification'
-            produces [ 'application/json' ]
+            produces    ['application/json']
           end
         end
         spec.path.rotate!(-1) rescue nil

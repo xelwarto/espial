@@ -7,6 +7,16 @@ module Espial
 				name << 's'
 			end
 
+			def ref(value=nil)
+				if value.nil?
+					@ref
+				else
+					if value.is_a?(String)
+						@ref = value
+					end
+				end
+			end
+
 			# String attribute spec
 			def self.s_attr_accessor(*args)
 				args.each do |arg|
@@ -145,7 +155,11 @@ module Espial
 			end
 
 			def to_json
-				data = {}
+				data = data || {}
+
+				if !@ref.nil?
+					data[:$ref] = @ref
+				end
 
 				if !@s_attr_var.nil?
 					@s_attr_var.each do |attr|
