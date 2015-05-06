@@ -23,6 +23,7 @@ module Espial
         end
       end
       alias method_missing udefine
+      alias schema udefine
 
       def to_json
         super.merge(@schema)
