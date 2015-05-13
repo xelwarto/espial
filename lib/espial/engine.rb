@@ -14,16 +14,26 @@ module Espial
           description 'Swagger API Specification'
         end
 
-        spec.path spec.api_path do
-          get do
-            route       controller: 'espialspec#show', as: 'espial_api'
-            tags        ['api-spec']
-            summary     'API Specification'
-            description 'Retreive the API specification'
-            produces    ['application/json']
+        if !spec.spec_path.nil?
+          spec.path spec.spec_path do
+            get do
+              route       controller: 'espial_spec#show', as: 'espial_api'
+              tags        ['api-spec']
+              summary     'API Specification'
+              description 'Retreive the API specification'
+              produces    ['application/json']
+            end
+
+            options do
+              route       controller: 'espial_spec#cors', as: 'espial_cors'
+              tags        ['api-spec']
+              summary     'Access control preflight'
+              description 'Provides preflight access control options for API requests'
+              produces    ['text/plain']
+            end
           end
+          spec.path.rotate!(-1) rescue nil
         end
-        spec.path.rotate!(-1) rescue nil
 
         Espial::Config.instance.specs[spec.id] = spec
         build_routes(spec)

@@ -2,6 +2,7 @@
 module Espial
   module Spec
     class Api < Espial::Spec::Helper
+      attr_reader :spec_path
 
       s_attr_accessor :swagger, :basePath, :host
       a_attr_accessor :schemes, :consumes, :produces
@@ -11,11 +12,11 @@ module Espial
 
       def initialize
         swagger '2.0'
-        @api_path = '/api'
+        @spec_path = nil
       end
 
-      def api_path(path=nil)
-        @api_path = path || @api_path
+      def specPath(path=nil)
+        @spec_path = path
       end
 
       def id
