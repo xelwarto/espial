@@ -9,6 +9,7 @@ module Espial
       a_attr_accessor :tags, :consumes, :produces, :schemes
       a_obj_accessor :parameter
       hid_obj_accessor :response
+      h_obj_accessor :security
 
       # externalDocs, responses, security
 
