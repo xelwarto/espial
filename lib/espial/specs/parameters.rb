@@ -6,6 +6,7 @@ module Espial
       s_attr_accessor :name, :in, :description, :type, :format, :collectionFormat,
                       :pattern
       b_attr_accessor :required, :uniqueItems
+      h_obj_accessor  :schema
 
       # schema, items, maximum, exclusiveMaximum, minimum, exclusiveMinimum
       # maxLength, minLength, maxItems, minItems, enum, multipleOf

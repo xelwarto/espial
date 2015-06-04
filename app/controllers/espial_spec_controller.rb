@@ -6,10 +6,10 @@ class EspialSpecController < ApplicationController
 	include Espial::Controller::Helper
 
 	def show
-		spec = get_spec.to_json rescue nil
+		spec = espial_get_spec.to_hash rescue nil
 
 		if spec.nil?
-			spec = { error: 'Unable to generate API specification' }.to_json rescue nil
+			spec = { error: 'Unable to generate API specification' } rescue nil
 		else
 			if params.include? :pretty
 				spec = JSON.pretty_unparse(spec) rescue nil

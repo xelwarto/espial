@@ -13,7 +13,7 @@ module Espial
         end
       end
 
-      def to_json
+      def to_hash
         @data
       end
 

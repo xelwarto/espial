@@ -16,7 +16,7 @@ module Espial
           if block_given?
             s = Schema.new
             s.instance_eval(&block)
-            @schema[key.to_sym] = s.to_json
+            @schema[key.to_sym] = s.to_hash
           else
             @schema[key.to_sym] = opts[0]
           end
@@ -25,7 +25,7 @@ module Espial
       alias method_missing udefine
       alias schema udefine
 
-      def to_json
+      def to_hash
         super.merge(@schema)
       end
 

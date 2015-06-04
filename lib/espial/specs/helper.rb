@@ -154,7 +154,7 @@ module Espial
 				@a_obj_var ||= []
 			end
 
-			def to_json
+			def to_hash
 				data = data || {}
 
 				if !@ref.nil?
@@ -175,7 +175,7 @@ module Espial
 
 				if !@h_obj_var.nil?
 					@h_obj_var.each do |obj|
-						data[obj] = self.send(obj.to_s).to_json
+						data[obj] = self.send(obj.to_s).to_hash
 					end
 				end
 
@@ -186,7 +186,7 @@ module Espial
 
 						objs = self.send(obj.to_s)
 						objs.each do |o|
-							data[obj_name][o.id] = o.to_json
+							data[obj_name][o.id] = o.to_hash
 						end
 					end
 				end
@@ -198,7 +198,7 @@ module Espial
 
 						objs = self.send(obj.to_s)
 						objs.each do |o|
-							data[obj_name].push(o.to_json)
+							data[obj_name].push(o.to_hash)
 						end
 					end
 				end
