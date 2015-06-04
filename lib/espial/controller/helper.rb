@@ -1,13 +1,21 @@
 
 require 'espial'
+require 'json-schema'
 
 module Espial
   module Controller
     module Helper
 
-      def get_spec
-        id = request.script_name
-    		Espial::Config.instance.specs[id]
+      def espial_get_id
+        request.script_name
+      end
+
+      def espial_get_spec
+    		Espial::Config.instance.specs[espial_get_id]
+      end
+
+      def espial_validate(fragment, data)
+        return JSON::Validator.fully_validate(espial_get_spec.to_hash, data, validate_schema: true, fragment: fragment)
       end
 
     end
