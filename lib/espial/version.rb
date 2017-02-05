@@ -1,6 +1,6 @@
 
 module Espial
-  VERSION = "0.1.2"
+  VERSION = "0.1.3"
   NAME    = 'espial'
   AUTHOR  = 'Ted Elwartowski'
   EMAIL   = '<xelwarto.pub@gmail.com>'
