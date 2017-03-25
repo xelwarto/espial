@@ -16,6 +16,6 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "README.md"]
 
-  spec.add_dependency 'rails', '~> 5'
-  spec.add_dependency 'json-schema', '~> 2.7'
+  spec.add_dependency 'rails', '~> 5.0'
+  spec.add_dependency 'json-schema', '~> 2.8'
 end
